@@ -15,7 +15,6 @@ public class MvcController {
 
     @GetMapping("/admin-page")
     public String secret(ModelMap modelMap) {
-        modelMap.put("message", "Hello Secure World!");
         return "admin-page";
     }
 }
