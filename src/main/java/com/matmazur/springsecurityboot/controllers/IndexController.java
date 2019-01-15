@@ -8,10 +8,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class IndexController {
 
     @GetMapping("/")
-    public String index(ModelMap modelMap){
+    public String index(ModelMap modelMap) {
 
-        modelMap.put("message","Hello Secure World!");
-
+        modelMap.put("message", "Hello Secure World!");
         return "index";
+    }
+
+    @GetMapping("/secret")
+    public String secret() {
+        return "secret";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 }
