@@ -5,7 +5,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class IndexController {
+public class MvcController {
 
     @GetMapping("/")
     public String index(ModelMap modelMap) {
@@ -13,4 +13,9 @@ public class IndexController {
         return "index";
     }
 
+    @GetMapping("/admin-page")
+    public String secret(ModelMap modelMap) {
+        modelMap.put("message", "Hello Secure World!");
+        return "admin-page";
+    }
 }
