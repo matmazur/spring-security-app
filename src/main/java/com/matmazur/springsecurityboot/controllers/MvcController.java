@@ -14,7 +14,17 @@ public class MvcController {
     }
 
     @GetMapping("/admin-page")
-    public String secret(ModelMap modelMap) {
+    public String adminPage(ModelMap modelMap) {
         return "admin-page";
+    }
+
+    @GetMapping("/user-page")
+    public String userPage(ModelMap modelMap) {
+        return "user-page";
+    }
+
+    @GetMapping("/access-denied")
+    public String accessDenied(ModelMap modelMap) {
+        return "access-denied";
     }
 }

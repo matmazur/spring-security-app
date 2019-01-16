@@ -18,10 +18,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .jdbcAuthentication()
-                .dataSource(dataSource);
-//                .withUser("mike").password("{noop}ekim").roles("USER")
-//                .and()
-//                .withUser("user").password("root").roles("ADMIN");
+                .dataSource(dataSource)
+                .withUser("mike").password("{noop}ekim").roles("USER")
+                .and()
+                .withUser("admin").password("{noop}pass").roles("ADMIN", "USER");
     }
 
     @Override
@@ -29,7 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/admin-page").hasAuthority("ROLE_ADMIN").anyRequest()
+                .authenticated()
+                .and()
+                .exceptionHandling().accessDeniedPage("/access-denied")
                 .and()
                 .formLogin();
     }
