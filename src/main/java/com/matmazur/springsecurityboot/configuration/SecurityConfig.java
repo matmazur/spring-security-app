@@ -1,10 +1,13 @@
 package com.matmazur.springsecurityboot.configuration;
 
+import com.matmazur.springsecurityboot.security.CustomAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 import javax.sql.DataSource;
 
@@ -32,8 +35,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin-page").hasAuthority("ROLE_ADMIN").anyRequest()
                 .authenticated()
                 .and()
-                .exceptionHandling().accessDeniedPage("/access-denied")
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
+//                .exceptionHandling().accessDeniedPage("/access-denied")
                 .and()
                 .formLogin();
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler(){
+        return new CustomAccessDeniedHandler();
     }
 }
