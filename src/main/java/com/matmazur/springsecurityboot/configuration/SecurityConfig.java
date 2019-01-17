@@ -20,30 +20,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-        JdbcUserDetailsManagerConfigurer<AuthenticationManagerBuilder> builder = auth.jdbcAuthentication().dataSource(dataSource);
-        JdbcUserDetailsManager userDetailsManager = builder.getUserDetailsService();
-        userDetailsManager.setUsersByUsernameQuery("select username,password,enabled from accounts where username = ?");
-        userDetailsManager.setAuthoritiesByUsernameQuery("select username,authority from roles where username = ?");
-        userDetailsManager.setCreateUserSql("insert into accounts(username,password,enabled) values(?,?,?)");
-        userDetailsManager.setCreateAuthoritySql("insert into roles(username,authority) values(?,?)");
-
-
-        builder
-                .withUser("mike").password("{bcrypt}ekim").roles("USER")
-                .and()
-                .withUser("admin").password("{bcrypt}pass").roles("ADMIN", "USER");
-    }
+//
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//
+////        JdbcUserDetailsManagerConfigurer<AuthenticationManagerBuilder> builder = auth.jdbcAuthentication().dataSource(dataSource);
+////        JdbcUserDetailsManager userDetailsManager = builder.getUserDetailsService();
+////        userDetailsManager.setUsersByUsernameQuery("select username,password,enabled from accounts where username = ?");
+////        userDetailsManager.setAuthoritiesByUsernameQuery("select username,authority from roles where username = ?");
+////        userDetailsManager.setCreateUserSql("insert into accounts(username,password,enabled) values(?,?,?)");
+////        userDetailsManager.setCreateAuthoritySql("insert into roles(username,authority) values(?,?)");
+//
+//
+//        auth.jdbcAuthentication().dataSource(dataSource)
+//                .withUser("mike").password("{bcrypt}ekim").roles("USER")
+//                .and()
+//                .withUser("admin").password("{bcrypt}pass").roles("ADMIN", "USER");
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/", "/register").permitAll()
                 .antMatchers("/admin-page").hasAuthority("ROLE_ADMIN").anyRequest()
                 .authenticated()
                 .and()
