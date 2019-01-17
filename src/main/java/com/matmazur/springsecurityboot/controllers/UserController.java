@@ -1,6 +1,7 @@
 package com.matmazur.springsecurityboot.controllers;
 
 import com.matmazur.springsecurityboot.model.User;
+import com.matmazur.springsecurityboot.repositories.UserRepository;
 import com.matmazur.springsecurityboot.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,9 +21,12 @@ public class UserController {
     private final
     UserService userService;
 
+    private final UserRepository userRepository;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/register")
@@ -35,9 +39,15 @@ public class UserController {
     @PostMapping("/register")
     public String registerProcess(@Valid @ModelAttribute User user, BindingResult result, ModelMap modelMap) {
 
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            result.addError(new ObjectError("Email duplicate", "This email address already exists in database"));
+        }
         if (result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
             errors.forEach(System.err::println);
+            for (ObjectError e:errors){
+            }
+            modelMap.put("errors", errors);
             return "register-form";
         }
         if (user.getEmail().equals("matmazur90@gmail.com")) {

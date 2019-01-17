@@ -1,5 +1,8 @@
 package com.matmazur.springsecurityboot.model;
 
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;

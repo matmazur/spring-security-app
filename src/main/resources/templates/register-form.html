@@ -26,5 +26,12 @@
     <span class="errorValidation"th:errors="*{password}">Password missing</span><br>
     <input type="submit" value="add user">
 </form>
+
+<div th:if="${errors}!=null">
+    <p>List of errors:</p>
+    <ul th:each="p : ${errors}" th:object="${p}">
+        <li th:text="*{defaultMessage}"></li>
+    </ul>
+</div>
 </body>
 </html>
