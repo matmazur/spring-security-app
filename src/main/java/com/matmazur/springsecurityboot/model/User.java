@@ -1,5 +1,6 @@
 package com.matmazur.springsecurityboot.model;
 
+import com.matmazur.springsecurityboot.customValidators.UniqueEmail;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.UniqueElements;
 
@@ -23,6 +24,7 @@ public class User {
     private String surname;
     @Email(message = "email has to have proper formatting")
     @NotEmpty(message = "email field can't be empty")
+//    @UniqueEmail
     private String email;
     @NotEmpty(message = "password field can't be empty")
     private String password;

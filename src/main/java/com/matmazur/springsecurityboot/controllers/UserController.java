@@ -45,8 +45,6 @@ public class UserController {
         if (result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
             errors.forEach(System.err::println);
-            for (ObjectError e:errors){
-            }
             modelMap.put("errors", errors);
             return "register-form";
         }
