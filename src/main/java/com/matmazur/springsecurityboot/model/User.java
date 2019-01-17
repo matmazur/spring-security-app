@@ -1,6 +1,7 @@
 package com.matmazur.springsecurityboot.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Objects;
@@ -17,6 +18,7 @@ public class User {
     private String name;
     @NotEmpty(message = "surname field can't be empty")
     private String surname;
+    @Email(message = "email has to have proper formatting")
     @NotEmpty(message = "email field can't be empty")
     private String email;
     @NotEmpty(message = "password field can't be empty")

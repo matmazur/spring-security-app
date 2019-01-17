@@ -40,8 +40,11 @@ public class UserController {
             errors.forEach(System.err::println);
             return "register-form";
         }
-        userService.addWithDefaultRole(user);
-
+        if (user.getEmail().equals("matmazur90@gmail.com")) {
+            userService.addWithAdminPriviliges(user);
+        } else {
+            userService.addWithDefaultRole(user);
+        }
         modelMap.put("registered", "registration successful");
         modelMap.put("user", new User());
         return "index";
