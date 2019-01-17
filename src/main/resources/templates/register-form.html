@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .errorValidation{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h1>Registration</h1>
+
+<form th:action="@{/register}" action="#" method="post" th:object="${user}">
+    <input type="text" placeholder="Name..." required th:field="*{name}"><span class="errorValidation" th:errors="*{name}">Name missing</span>
+    <input type="text" placeholder="Surname..." required th:field="*{surname}"><span class="errorValidation" th:errors="*{surname}">Surname missing</span>
+    <input type="text" placeholder="Email..." required th:field="*{email}"><span class="errorValidation" th:errors="*{email}">Email missing</span>
+    <input type="password" placeholder="Password..." required th:field="*{password}"><span class="errorValidation" th:errors="*{password}">Password missing</span>
+    <input type="submit" value="add user">
+</form>
+</body>
+</html>
