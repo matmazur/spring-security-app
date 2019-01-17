@@ -2,6 +2,7 @@ package com.matmazur.springsecurityboot.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -20,10 +21,8 @@ public class User {
     private String email;
     @NotEmpty(message = "password field can't be empty")
     private String password;
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Role> roles;
-
+    private Set<Role> roles = new HashSet<>();
 
     public User(String name, String surname, String email, String password, Set<Role> roles) {
         this.name = name;
