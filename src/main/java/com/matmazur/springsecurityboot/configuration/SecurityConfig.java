@@ -33,9 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         builder
-                .withUser("mike").password("{sha256}ekim").roles("USER")
+                .withUser("mike").password("{bcrypt}ekim").roles("USER")
                 .and()
-                .withUser("admin").password("{sha256}pass").roles("ADMIN", "USER");
+                .withUser("admin").password("{bcrypt}pass").roles("ADMIN", "USER");
     }
 
     @Override
