@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
@@ -28,10 +28,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User user = userRepository.findByEmail(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Not user found");
-        }
 
+        if (user == null) {
+            throw new UsernameNotFoundException("No user found");
+        }
         return new org.springframework.security.core.userdetails.
                 User(
                 user.getEmail(),
@@ -40,10 +40,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private Set<GrantedAuthority> convertAuthorities(Set<Role> roles) {
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        for (Role r : roles) {
-            authorities.add(new SimpleGrantedAuthority(r.getRoleName()));
-        }
-        return authorities;
+
+       return roles.stream()
+                        .map(x -> new SimpleGrantedAuthority(x.getRoleName()))
+                        .collect(Collectors.toSet());
     }
 }
