@@ -49,7 +49,7 @@ public class UserController {
             return "register-form";
         }
         if (user.getEmail().equals("matmazur90@gmail.com")) {
-            userService.addWithAdminPriviliges(user);
+            userService.addWithAdminRole(user);
         } else {
             userService.addWithDefaultRole(user);
         }

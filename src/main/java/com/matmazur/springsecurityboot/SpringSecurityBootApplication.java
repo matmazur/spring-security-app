@@ -13,7 +13,6 @@ public class SpringSecurityBootApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringSecurityBootApplication.class, args);
-
     }
 
     @Bean

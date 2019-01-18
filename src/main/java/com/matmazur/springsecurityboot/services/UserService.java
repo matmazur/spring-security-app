@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,13 +17,9 @@ public class UserService {
     private final static String DEFAULT_ROLE = "ROLE_USER";
     private final static String ADMIN_ROLE = "ROLE_ADMIN";
 
-    private final
-    UserRepository userRepository;
-    private final
-    RoleRepository roleRepository;
-    private final
-    PasswordEncoder passwordEncoder;
-
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
     @Autowired
     public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -33,28 +28,27 @@ public class UserService {
     }
 
     public void addWithDefaultRole(User user) {
-        Role defaultRole = roleRepository.findByRoleName(DEFAULT_ROLE);
-        user.getRoles().add(defaultRole);
-        hashPassword(user);
+        Role userRole = roleRepository.findByRoleName(DEFAULT_ROLE);
 
-        userRepository.save(user);
+        user.getRoles().add(userRole);
+        hashPasswordAndAddUser(user);
+
     }
 
-    public void addWithAdminPriviliges(User user) {
+    public void addWithAdminRole(User user) {
 
         Role userRole = roleRepository.findByRoleName(DEFAULT_ROLE);
         Role adminRole = roleRepository.findByRoleName(ADMIN_ROLE);
-        List<Role> roles = Arrays.asList(userRole, adminRole);
 
-        user.getRoles().addAll(roles);
-        hashPassword(user);
+        user.getRoles().addAll(Arrays.asList(userRole, adminRole));
+        hashPasswordAndAddUser(user);
 
-        userRepository.save(user);
     }
 
-    private void hashPassword(User user) {
+    private void hashPasswordAndAddUser(User user) {
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
+        userRepository.save(user);
     }
 
 }
