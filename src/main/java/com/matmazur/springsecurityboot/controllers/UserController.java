@@ -21,12 +21,9 @@ public class UserController {
     private final
     UserService userService;
 
-    private final UserRepository userRepository;
-
     @Autowired
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping("/register")
@@ -39,9 +36,6 @@ public class UserController {
     @PostMapping("/register")
     public String registerProcess(@Valid @ModelAttribute User user, BindingResult result, ModelMap modelMap) {
 
-        if (userRepository.findByEmail(user.getEmail()) != null) {
-            result.addError(new ObjectError("Email duplicate", "This email address already exists in database"));
-        }
         if (result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
             errors.forEach(System.err::println);
@@ -54,7 +48,6 @@ public class UserController {
             userService.addWithDefaultRole(user);
         }
         modelMap.put("registered", "registration successful");
-        modelMap.put("user", new User());
         return "index";
     }
 }
